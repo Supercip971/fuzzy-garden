@@ -51,16 +51,3 @@ adj = {
 }
 
 
-
-## affichage des noeuds dans l'ordre du parcours en largeur à partir de a
-#print("Parcours en largeur à partir de 'a'")
-#affiche_largeur('a', adj)
-
-#print()
-
-## affichage des noeuds dans l'ordre du parcours en largeur à partir de c
-#print("Parcours en largeur à partir de 'c'")
-#affiche_largeur('c', adj)
-
-
-print(chemin(adj, 'c', 'f'))
