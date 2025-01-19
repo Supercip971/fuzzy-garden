@@ -1,18 +1,52 @@
 import math
 
 def d_init(o_graph, s_deb):
-    """ initialiser les distances"""
+    """ 
+    initialise les distances entre s_deb et les autres noeuds de o_graph, à 0 pour s_deb, à l'infini pour les autres
+    
+    Paramètres
+    ----------
+    o_graph : dict
+        graphe orienté
+    s_deb : str
+        noeud de départ
+    Retourne
+    -------
+    dist : dict
+        dictionnaire initialisé des distances entre un noeud de o_graph et s_deb."""
     dist = {}
+    
+    #affectation d'une distance infinie pour tous les noeuds de o_graph
     
     for som in o_graph.keys():
         dist[som] = math.inf
+    
+    #affectation d'une distance de 0 pour s_deb
     
     dist[s_deb] = 0
     return dist
 
 
 def find_min(n_list, dico_dist):
+    """
+   Trouve le sommet de plus faible distance au noeud de départ
+    
+    Paramètres
+    ----------
+    n_list : list
+        liste de noeuds
+    dico_dist : dict
+        dictionnaire contenant les distances entre un noeud et le noeud de départ
+    
+    Retourne
+    -------
+    s_min : str
+        sommet de plus courte distance"""
     mini = math.inf
+    
+    #on parcourt les noeuds dans la liste de noeuds.
+    #si la distance du noeud regardé est plus petite que la valeur minimale
+    #alors le noeud regardé devient le noeud de distance minimale
     
     for s in n_list: 
         if  dico_dist[s] <= mini: 
@@ -23,13 +57,33 @@ def find_min(n_list, dico_dist):
   
     
 def maj_dist(dist, n1, n2, pred, graph):
+    """
+    Met à jour la distance entre deux noeuds.
+    
+    Paramètres
+    ----------
+    dist : dict
+        dictionnaires des distances entre les noeuds
+    n1 : str
+        noeud
+    n2 : str
+        noeud
+    pred : dict
+        dictionnaires des prédécesseurs d'un noeud
+    graph : dict
+        
+    Retourne
+    -------
+    dist : dict
+    pred : dict"""
+    
     p = poids(n1, n2, graph)
     
-    if dist[n2] > dist[n1] + p:
+    if dist[n2] > dist[n1] + p: #on vérifie s'il est mieux de passer par n1 ou non
         dist[n2] = dist[n1] + p
-        pred[n2] = n1
+        pred[n2] = n1 # on créée un chemin de n1 vers n2, donc n1 devient le prédecesseur de n2
         
-    return dist, pred
+    return dist, pred  
 
 
 def poids(n1, n2, graph):
@@ -59,14 +113,6 @@ def find_shortest_path(s_deb, s_fin, pred):
 
     return short_path
 
-def poids_total(o_graph, chemin):
-    ptot = 0
-    
-    for v in range(len(chemin)-1):
-        ptot += poids(chemin[v], chemin[v+1], o_graph)
-        
-    return ptot
-        
 
 def dijkstra(o_graph, s_deb, s_fin):
     dico_dist = d_init(o_graph, s_deb) #init de la distance
@@ -84,4 +130,4 @@ def dijkstra(o_graph, s_deb, s_fin):
         for v in voisin : 
             dico_dist, pred = maj_dist(dico_dist, s, v, pred, o_graph)
 
-    return find_shortest_path(s_deb, s_fin, pred)
+    return find_shortest_path(s_deb, s_fin, pred), dico_dist[s_fin]
