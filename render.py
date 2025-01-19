@@ -2,7 +2,7 @@
 
 import arcs as arc
 
-def print_chemin_defavorisee_element(path, defavorise: dict[list], element):
+def print_chemin_defavorisee_element(path, defavorise, element):
     """
     On rappelle que la structure retournée par 
     arc.list_to_dico() 
