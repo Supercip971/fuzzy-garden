@@ -87,17 +87,49 @@ def maj_dist(dist, n1, n2, pred, graph):
 
 
 def poids(n1, n2, graph):
+    """ 
+    calcule le poids entre deux sommets
     
+    Paramètres
+    ----------
+    n1 : 
+        graphe orienté
+    s_deb : str
+        noeud de départ
+    Retourne
+    -------
+    dist : dict
+        dictionnaire initialisé des distances entre un noeud de o_graph et s_deb."""
+
+    #graph est de la forme [n1 : [p, n2]]
+    #donc arc = [p, n2]
+
     for arc in graph[n1]:
         if arc[1] == n2 : 
-            return arc[0]
+            return arc[0]   #retourne le poids
     
-    print(f"j'ai pas trouvé: {n1} {n2}")
+    print(f"Erreur : pas d'arc entre {n1} et {n2}")   
 
 def find_shortest_path(s_deb, s_fin, pred):
+    """ 
+    trouve le plus court chemin entre deux noeuds
+    
+    Paramètres
+    ----------
+    s_deb : str 
+        noeud de départ
+    s_fin : str
+        noeud d'arrivée
+    pred : dict
+        dictionnaire des prédécesseurs d'un noeud
+
+    Retourne
+    -------
+    short_path : list
+        liste contenant le plus court chemin entre deux noeuds"""
+    
     short_path = [] 
     som = s_fin  
-    ptot = 0
 
     while som != s_deb : 
         short_path = [som] + short_path
@@ -115,27 +147,61 @@ def find_shortest_path(s_deb, s_fin, pred):
 
 
 def dijkstra(o_graph, s_deb, s_fin):
-    dico_dist = d_init(o_graph, s_deb) #init de la distance
-    to_visit = [s for s in o_graph.keys()]
+    """ 
+    applique l'alogrithme de Dijkstra sur un graphe orienté
+    
+    Paramètres
+    ----------
+    o_graph : dict 
+        graphe pondéré orienté
+    s_deb : str
+        noeud de départ
+    s_fin : str
+        noeud d'arrivée
+    Retourne
+    -------
+    short_path : list
+        liste contenant le plus court chemin entre deux noeuds
+    dico_dist[s_fin] : int
+        poids total du chemin"""
+        
+    dico_dist = d_init(o_graph, s_deb) #initialisation de la distance
+    to_visit = [s for s in o_graph.keys()]  #sommets pas encore visités
     pred = {}    
     
     while to_visit != []:     #tant que tous les sommets de o_graph ne sont pas dans d_graph
         s = find_min(to_visit, dico_dist)
-        to_visit.remove(s)
+        to_visit.remove(s)  #s est visité, on l'enlève de la liste
+        
+        # o_graph est de la forme : {a:[[1,b], [2,c]]}
         
         arc_vois = o_graph[s]
         voisin = [arc_vois[i][1] for i in range(len(arc_vois)) ]
-        # o_graph est de la forme : {a:[[1,b], [2,c]]}
         
+        #on met à jour les distances entre s et ses voisins, en notant s comme prédécesseur
+
         for v in voisin : 
-            dico_dist, pred = maj_dist(dico_dist, s, v, pred, o_graph)
+            dico_dist, pred = maj_dist(dico_dist, s, v, pred, o_graph)  
 
     return find_shortest_path(s_deb, s_fin, pred), dico_dist[s_fin]
+
 
 def dijkstra_cycle(graph, debut, fin):
     """
     Trouve un cycle depuis deux ingrédients
-    """
+    
+    Paramètres
+    ----------
+    graph : dict 
+        graphe orienté pondéré
+    fin : str
+        noeud d'arrivée
+    debut : dict
+        dictionnaire des prédécesseurs d'un noeud
+
+    Retourne
+    -------
+    chemin cyclique : list"""
 
     if debut == fin:
         return [debut]
