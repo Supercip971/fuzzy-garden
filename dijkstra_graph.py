@@ -131,3 +131,31 @@ def dijkstra(o_graph, s_deb, s_fin):
             dico_dist, pred = maj_dist(dico_dist, s, v, pred, o_graph)
 
     return find_shortest_path(s_deb, s_fin, pred), dico_dist[s_fin]
+
+def dijkstra_cycle(graph, debut, fin):
+    """
+    Trouve un cycle depuis deux ingrédients
+    """
+
+    if debut == fin:
+        return [debut]
+    
+    chemin_aller, poids_aller = dijkstra(graph, debut, fin)
+    chemin_retour, poids_retour = dijkstra(graph, fin, debut)
+
+    if chemin_aller == [] or chemin_retour == []: 
+        print(f"Erreur: aucun chemin possible n'a été trouvé entre: {debut} et {fin}")
+        return []
+    
+
+    """
+    On sait que l'on aura: 
+    [1,2,3] + [3,4,1] = [1,2,3,3,4,1]
+                             | | 
+                             +-+----+ Problème, de liaison, 3 apparait 2 fois, donc on retire le premier 
+                                    | élement de la liste retour: ici 3
+
+    Pour cela on fait chemin_retour[1:] qui retire le premier élément de la liste
+    """
+
+    return chemin_aller + chemin_retour[1:], poids_aller + poids_retour
