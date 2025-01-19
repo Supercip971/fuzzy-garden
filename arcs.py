@@ -1,7 +1,7 @@
 import csv
-import ds_graph as g
+import bio_indicateurs as bio
 
-def list_to_dico(liste, type_lien='favorise'):
+def list_to_dico(liste, utilise_bioind = False, type_lien='favorise'):
     """
     Convertit une liste de listes de taille 3 en dico
     
@@ -23,7 +23,18 @@ def list_to_dico(liste, type_lien='favorise'):
     for elt in liste:
         if elt[1] == type_lien:
             dico[elt[0]] = dico.get(elt[0], [])
-            dico[elt[0]].append([float(elt[3]), elt[2]]) # donne poids -> destination
+            
+            malus_bioindicateurs = 0
+            if utilise_bioind: 
+                malus_bioindicateurs += bio.bio_indicateurs_malus(elt[0], elt[2]) 
+
+            #si on utilise les bio-indicateurs, on ajoute sa valeur au poids et le chemin 
+            #est considéré comme plus long
+            
+            dico[elt[0]].append([
+                    float(elt[3]) + malus_bioindicateurs, 
+                    elt[2], 
+                ]) # donne poids -> destination
             
             # rajouter un noeud vide pour la destination si nécessaire.
             # Cas de la capucine qui n'a pas d'enfant mais qui doit être tout de même créé

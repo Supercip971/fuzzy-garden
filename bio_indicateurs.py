@@ -25,14 +25,14 @@ def bio_indicateur_espece(espece):
 
 def bio_indicateurs_init(): 
     """
-    Charge les bio-indicateurs depuis le fichier 'data_arcs_poids.csv' dans la 
+    Charge les bio-indicateurs depuis le fichier 'data_sommets_bioindicateurs.csv' dans la 
     variable globale bio_indicateurs_data.
     """
     data = []    
 
-    with open("data/data_arcs_poids.csv", encoding="utf-8") as f_bioind:
+    with open("data/data_sommets_bioindicateurs.csv", encoding="utf-8") as f_bioind:
         r_bioind = csv.reader(f_bioind, delimiter=";")
-        data = [row for row in r_bioind]  #liste de liste avec les arcs
+        data = [row for row in r_bioind]  # vu que r_bioind est un reader, on lit toutes les entrées dans un tableau (r_bioind n'est pas un tableau <!>)
 
     return data
 
@@ -52,7 +52,7 @@ def bio_indicateurs_malus(el1, el2):
 
     dist = 0
     for i in range(len(esp1)):
-        dist += abs(int(esp1[i]) - int(esp2[i]))
+        dist += abs(float(esp1[i]) - float(esp2[i]))
     
     return dist
     
