@@ -1,5 +1,5 @@
 import csv
-import ds_graph as g
+import bfs_graph as g
 import arcs as arc 
 import dijkstra_graph as dg
 import render as rdot
@@ -22,4 +22,4 @@ print(f'chemin: {biochem}')
 print(f'poids: {biopoids}')
 
 print(" === Visualisation (dot) ===")
-rdot.print_chemin(chem)
+rdot.print_chemin(biochem)

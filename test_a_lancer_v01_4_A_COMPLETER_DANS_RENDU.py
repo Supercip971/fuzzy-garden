@@ -1,6 +1,7 @@
 ########################################################
-import csv
-import main as m
+
+import arcs as arcs
+import bfs_graph as bfs_graph
 # Definir ici la fonction calcul_liste_longueurs(liste_paires_depart_arrivee)
 # qui lit le fichier 'data_arcs.csv' dans le repertoire courant puis
 # calcule la longueur de plus court chemin pour chaque paire
@@ -21,11 +22,11 @@ import main as m
 
 
 def calcul_liste_longueurs(liste_paires_depart_arrivee):
-    m.list_to_dico(m.arcs)
+    o_graph = arcs.list_to_dico(arcs.arcs)
     liste_longueurs = []
     
     for i in liste_paires_depart_arrivee:
-        a = m.g.chemin(m.list_to_dico(m.arcs), i[0], i[1])
+        a = bfs_graph.chemin(o_graph, i[0], i[1])
 
         if a == []:
             liste_longueurs.append(None)

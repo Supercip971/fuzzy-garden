@@ -29,7 +29,7 @@ def d_init(o_graph, s_deb):
 
 def find_min(n_list, dico_dist):
     """
-   Trouve le sommet de plus faible distance au noeud de départ
+    Trouve le sommet de plus faible distance au noeud de départ
     
     Paramètres
     ----------
@@ -75,7 +75,8 @@ def maj_dist(dist, n1, n2, pred, graph):
     Retourne
     -------
     dist : dict
-    pred : dict"""
+    pred : dict
+    """
     
     p = poids(n1, n2, graph)
     
@@ -158,12 +159,15 @@ def dijkstra(o_graph, s_deb, s_fin):
         noeud de départ
     s_fin : str
         noeud d'arrivée
+    
     Retourne
     -------
     short_path : list
         liste contenant le plus court chemin entre deux noeuds
     dico_dist[s_fin] : int
-        poids total du chemin"""
+        poids total du chemin
+    
+    """
         
     dico_dist = d_init(o_graph, s_deb) #initialisation de la distance
     to_visit = [s for s in o_graph.keys()]  #sommets pas encore visités
@@ -201,7 +205,8 @@ def dijkstra_cycle(graph, debut, fin):
 
     Retourne
     -------
-    chemin cyclique : list"""
+    chemin cyclique : list
+    """
 
     if debut == fin:
         return [debut]
