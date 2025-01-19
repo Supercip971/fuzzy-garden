@@ -23,9 +23,14 @@ def list_to_dico(liste, type_lien='favorise'):
     for elt in liste:
         if elt[1] == type_lien:
             dico[elt[0]] = dico.get(elt[0], [])
-            dico[elt[0]].append([elt[3], elt[2]]) # donne poids -> destination
-
-    return(dico)
+            dico[elt[0]].append([float(elt[3]), elt[2]]) # donne poids -> destination
+            
+            # rajouter un noeud vide pour la destination si nécessaire.
+            # Cas de la capucine qui n'a pas d'enfant mais qui doit être tout de même créé
+            
+            dico[elt[2]] = dico.get(elt[2], [])
+            
+    return dico
 
 
 # exemple de liste retournée par list_to_dico:
